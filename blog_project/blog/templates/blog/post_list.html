@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>All Posts</h2>
+
+<form method="get" action="{% url 'post_list' %}" class="search-bar">
+    <input type="text" name="q" placeholder="Search by title" value="{{ query|default:'' }}">
+    <button type="submit">Search</button>
+</form>
+
+{% if posts %}
+    <ul class="post-list">
+        {% for post in posts %}
+            <li class="post-item">
+                <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+                <p>By {{ post.author }} on {{ post.created_at }}</p>
+                <p>{{ post.content|truncatewords:20 }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No posts found.</p>
+{% endif %}
+{% endblock %}
